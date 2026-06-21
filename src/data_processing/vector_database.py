@@ -1,7 +1,7 @@
 from pathlib import Path
 import re
 
-from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from langchain_chroma import Chroma
@@ -13,7 +13,7 @@ from src.utils.settings import Settings
 ROOT_PATH = Path(__file__).resolve().parent.parent.parent
 PDF_PATH = ROOT_PATH / "data" / "raw" / "politicas_da_loja.pdf"
 EMBEDDING_MODEL = "models/text-embedding-004"
-PERSISTENCE_DIR = ROOT_PATH / "data" / "vector_db" / "chroma_db_storage"
+PERSISTENCE_DIR = ROOT_PATH / "data" / "chroma_db_storage"
 settings = Settings()
 
 

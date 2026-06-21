@@ -180,7 +180,9 @@ dependencies = [
     { name = "pandas" },
     { name = "pathlib" },
     { name = "pdfplumber" },
+    { name = "pydantic" },
     { name = "python-dotenv" },
+    { name = "sqlalchemy" },
 ]
 
 [package.metadata]
@@ -194,7 +196,9 @@ requires-dist = [
     { name = "pandas", specifier = ">=3.0.3" },
     { name = "pathlib", specifier = ">=1.0.1" },
     { name = "pdfplumber", specifier = ">=0.11.10" },
+    { name = "pydantic", specifier = ">=2.13.4" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "sqlalchemy", specifier = ">=2.0.51" },
 ]
 
 [[package]]
