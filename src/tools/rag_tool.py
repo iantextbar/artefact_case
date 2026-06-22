@@ -23,8 +23,10 @@ def query_store_policy_and_procedures(query: str) -> str:
 
     embedding = GoogleGenerativeAIEmbeddings(model=settings.EMBEDDING_MODEL)
     vector_db = Chroma(
-        persist_directory=settings.PERSISTENCE_DIR, 
-        embedding_function=embedding
+        persist_directory=str(settings.PERSISTENCE_DIR), 
+        embedding_function=embedding,
+        collection_name="politicas_loja"
+
     )
 
     docs = vector_db.similarity_search(query, k=3)

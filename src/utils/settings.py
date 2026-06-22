@@ -23,5 +23,6 @@ class Settings:
         self.PDF_PATH = ROOT_PATH / "data" / "raw" / "politicas_da_loja.pdf"
         self.EMBEDDING_MODEL = "gemini-embedding-001"
         self.PERSISTENCE_DIR = ROOT_PATH / "data" / "chroma_db_storage"
-        self.MODEL = "gemini-2.0-flash"
+        self.MODEL = "gemini-2.5-flash"
+        self.SQL_DATA_PATH = ROOT_PATH / "data" / "raw"
 

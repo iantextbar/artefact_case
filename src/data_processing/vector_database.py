@@ -154,7 +154,7 @@ def test_quick_search():
         vector_db = Chroma(
             persist_directory=str(settings.PERSISTENCE_DIR),
             embedding_function=embedding,
-            collection_name="politicas_loja"  # 👈 O nome exato que você salvou
+            collection_name="politicas_loja"
         )
 
         # 3. Teste de Sanidade: Quantos registros temos salvos?

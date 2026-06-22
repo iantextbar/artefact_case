@@ -1,19 +1,19 @@
-from datetime import datetime
 import ast
 import json
-from typing import Optional, Callable
+from typing import Optional, Callable, Type
 
-from pathlib import Path
 import pandas as pd
+from pydantic import BaseModel
+from sqlalchemy.orm import DeclarativeBase
 
 from src.data_processing.models import Categories, Customers, OrderItems, Orders, Products, Promotions
 from src.data_processing.schemas import CategoriesSchema, CustomersSchema, OrderItemsSchema, OrdersSchema, ProductsSchema, PromotionsSchema
 from src.utils.storage import Db
+from src.utils.settings import Settings
 
 # Get storage and set global variables
 DB = Db()
-ROOT_PATH = Path(__file__).resolve().parent.parent.parent
-DATA_PATH = ROOT_PATH / "data" / "raw"
+settings = Settings()
 
 # --- Data preparation functions
 
@@ -29,7 +29,11 @@ def clean_and_validate_specs(spec_val: str) -> str:
         return str(spec_val)
 
 # --- Main data insertion function  
-def insert_data_to_table(df: pd.DataFrame, model, schema):
+def insert_data_to_table(
+        df: pd.DataFrame,
+        model: Type[DeclarativeBase],
+        schema: Type[BaseModel]
+    ) -> dict:
 
     # Get list of dicts
     dict_list = df.to_dict(orient="records")
@@ -63,7 +67,12 @@ def insert_data_to_table(df: pd.DataFrame, model, schema):
         "error": "No objects found"
     }
 
-def process_df_to_sql(df, model, schema, transformer_fnc: Optional[Callable] = None):
+def process_df_to_sql(
+        df: pd.DataFrame,
+        model: Type[DeclarativeBase],
+        schema: Type[BaseModel],
+        transformer_fnc: Optional[Callable] = None
+    ) -> None:
 
     DB.create_table(model)
     if transformer_fnc:
@@ -93,12 +102,12 @@ def main():
     DB.drop_all_tables()
 
     # Read data
-    categories = pd.read_csv(f"{DATA_PATH}/desafio_tecnico_ai_eng - categories.csv")
-    customers = pd.read_csv(f"{DATA_PATH}/desafio_tecnico_ai_eng - customers.csv")
-    order_items = pd.read_csv(f"{DATA_PATH}/desafio_tecnico_ai_eng - order_items.csv")
-    orders = pd.read_csv(f"{DATA_PATH}/desafio_tecnico_ai_eng - orders.csv")
-    products = pd.read_csv(f"{DATA_PATH}/desafio_tecnico_ai_eng - products.csv")
-    promotions = pd.read_csv(f"{DATA_PATH}/desafio_tecnico_ai_eng - promotions.csv")
+    categories = pd.read_csv(f"{settings.SQL_DATA_PATH}/desafio_tecnico_ai_eng - categories.csv")
+    customers = pd.read_csv(f"{settings.SQL_DATA_PATH}/desafio_tecnico_ai_eng - customers.csv")
+    order_items = pd.read_csv(f"{settings.SQL_DATA_PATH}/desafio_tecnico_ai_eng - order_items.csv")
+    orders = pd.read_csv(f"{settings.SQL_DATA_PATH}/desafio_tecnico_ai_eng - orders.csv")
+    products = pd.read_csv(f"{settings.SQL_DATA_PATH}/desafio_tecnico_ai_eng - products.csv")
+    promotions = pd.read_csv(f"{settings.SQL_DATA_PATH}/desafio_tecnico_ai_eng - promotions.csv")
 
     # Process and insert to table
     print("Categories")
